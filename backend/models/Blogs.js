@@ -1,20 +1,22 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const UserSchema = new Schema({
-    name: {
-        type: String,
-        required: true,
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
     },
-    email: {
+    title: {
         type: String,
-        required: true,
-        unique: true
+        required: true
+    },
+    discription: {
+        type: String,
+        required: true
     },
     password: {
         type: Number,
-        required: true,
-        unique: true
+        required: true
     },
 });
 
