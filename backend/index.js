@@ -13,6 +13,7 @@ app.get('/', (req, res) => {
 })
 
 app.use('/auth', require('./routes/user'))
+app.use('/notes', require('./routes/blogs'))
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
