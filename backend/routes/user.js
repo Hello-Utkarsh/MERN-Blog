@@ -58,9 +58,15 @@ router.post('/login', [
         if (!auth) {
             res.send("Incorrect email or password")
         }
+        const data = {
+            user: {
+                id: user.id
+            }
+        }
+        const authtoken = jwt.sign(data, process.env.VITE_JWT_SECRET);
 
         // LOGGED IN
-        res.status(201).json({ message: "User logged in successfully", success: true });
+        res.status(201).json({ message: "User logged in successfully", authtoken });
     } catch (error) {
         res.json(error.message);
     }
