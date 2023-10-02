@@ -11,7 +11,6 @@ const fetchuser = (req, res, next) => {
 
     let auth = jwt.verify(token, process.env.VITE_JWT_SECRET);
     req.user = auth.user;
-    console.log(req.user)
     next();
 
   } catch (error) {

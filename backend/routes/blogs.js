@@ -6,8 +6,25 @@ const fetchuser = require('../middleware/fetchuser')
 const jwt = require('jsonwebtoken')
 
 // FETCH ALL BLOGS
-router.get('/fetchblogs', async (req, res) => {
-  res.send("Get Goals")
+router.get('/fetchblogs', fetchuser,  async (req, res) => {
+  try {
+    // CHECKING IF NOTE EXIST OR NOT
+    let all_user_note = await Blogs.find({
+      user: req.user.id,
+    });
+    // console.log(all_user_note)
+    if (!all_user_note) {
+      return res.json({
+        error: "You do not have any note",
+      });
+    }
+
+    res.send(all_user_note)
+
+
+  } catch (error) {
+    res.send(error.message);
+  }
 })
 
 // CREATE BLOG
@@ -18,8 +35,9 @@ router.post('/createblog', fetchuser, async (req, res) => {
     // CHECKING IF SIMILAR NOTE EXIST OR NOT
     let exist_title = await Blogs.findOne({ title: req.body.title });
     let exist_description = await Blogs.findOne({
-      description: req.body.description,
+      discription: req.body.description,
     });
+
     if (exist_description || exist_title) {
       return res.json({
         error: "A note with similar data was found. Please add a new note",
