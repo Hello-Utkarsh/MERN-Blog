@@ -6,13 +6,13 @@ const fetchuser = require('../middleware/fetchuser')
 const jwt = require('jsonwebtoken')
 
 // FETCH ALL BLOGS
-router.get('/fetchblogs', fetchuser,  async (req, res) => {
+router.get('/fetchblogs', fetchuser, async (req, res) => {
   try {
     // CHECKING IF NOTE EXIST OR NOT
     let all_user_note = await Blogs.find({
       user: req.user.id,
     });
-    // console.log(all_user_note)
+
     if (!all_user_note) {
       return res.json({
         error: "You do not have any note",
@@ -65,13 +65,27 @@ router.post('/createblog', fetchuser, async (req, res) => {
 })
 
 // UPDATE BLOG
-router.put('/updateblog:id', async (req, res) => {
+router.put('/updateblog:id', fetchuser, async (req, res) => {
   res.send("Update Goals")
 })
 
 // DELETE BLOG
-router.delete('/deleteblog:id', async (req, res) => {
-  res.send("Delete Goals")
+router.delete('/deleteblog/:id', fetchuser, async (req, res) => {
+
+    let blog = await Blogs.findById(req.params.id)
+    
+    if (!blog) {
+      res.send("Not Found")
+    }
+
+
+    if (blog.user.toString() !== req.user.id) {
+      res.send("Unauthorized")
+    }
+
+    blog = await Blogs.deleteOne({ _id: req.params.id })
+    res.send("Successfully Deleted")
+
 })
 
 module.exports = router
