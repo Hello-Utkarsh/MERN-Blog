@@ -65,8 +65,46 @@ router.post('/createblog', fetchuser, async (req, res) => {
 })
 
 // UPDATE BLOG
-router.put('/updateblog:id', fetchuser, async (req, res) => {
-  res.send("Update Goals")
+router.put('/updateblog/:id', fetchuser, async (req, res) => {
+  try {
+    const {title, discription, tag} = req.body
+    let newblog = {
+      title: undefined,
+      discription: undefined,
+      tag: undefined,
+    }
+
+    if(title){
+      newblog.title = title
+    }
+
+    if(discription){
+      newblog.discription = discription
+    }
+
+    if(tag){
+      newblog.tag = tag
+    }
+
+    let blog = await Blogs.findById(req.params.id)
+
+    // {newblog.user, newblog.id} = {blog.user, blog.id}
+    
+    if (!blog) {
+      res.send("Not Found")
+    }
+
+    if (blog.user.toString() !== req.user.id) {
+      res.send("Unauthorized")
+    }
+
+    blog = await Blogs.findByIdAndUpdate(req.params.id, {$set: newblog}, {new: true} )
+
+    res.send(blog)
+
+  } catch (error) {
+    res.send(error.message)
+  }
 })
 
 // DELETE BLOG
