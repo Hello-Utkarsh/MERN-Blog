@@ -1,5 +1,9 @@
 const mongoose = require('mongoose')
 const { Schema } = mongoose;
+let time = new Date();
+// const timeStamp = new Date(Date.UTC(current.getFullYear(),
+//     current.getMonth(), current.getDate(), current.getHours(),
+//     current.getMinutes(), current.getSeconds(), current.getMilliseconds()));
 
 const UserSchema = new Schema({
     user: {
@@ -18,6 +22,10 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
+    Date: {
+        type: Date,
+        default: Date().toString()
+    }
 });
 
 module.exports = mongoose.model('Blogs', UserSchema);
