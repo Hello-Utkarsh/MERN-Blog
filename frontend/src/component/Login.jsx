@@ -2,6 +2,11 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 const Login = () => {
+
+  const handleLogin = () => {
+    console.log("hello")
+  }
+
   return (
     <div className='flex flex-col justify-center rounded-2xl py-5 items-center w-3/12 mx-auto my-[22vh] bg-gray-200 shadow-2xl'>
       <div className='flex flex-col mx-auto my-2 w-3/5'>
@@ -12,7 +17,7 @@ const Login = () => {
         <label className='my-1' htmlFor="">Password</label>
         <input className='rounded-md px-2 h-8' type="text" />
       </div>
-      <button type="submit" className='w-20 py-2 my-5 rounded-xl font-medium text-center bg-[#f14843]'>Login</button>
+      <button type="submit" onClick={handleLogin} className='w-20 py-2 my-5 rounded-xl font-medium text-center bg-[#f14843]'>Login</button>
       <p>Don't have an account? <Link className='underline' to={'/signin'}>Signin</Link></p>
     </div>
   )
