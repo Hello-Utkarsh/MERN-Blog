@@ -7,7 +7,7 @@ const Navbar = () => {
       <h1 className='text-4xl font-semibold'>Dev.Blog</h1>
       <div className='w-1/6 flex justify-around'>
         <Link to={'login'} className='bg-[#f14843] w-20 rounded-xl font-medium text-center py-2 my-auto'>Login</Link>
-        <button className='bg-[#f14843] w-20 rounded-xl font-medium'>SignIn</button>
+        <Link to={'signin'} className='bg-[#f14843] w-20 rounded-xl font-medium text-center py-2 my-auto'>SignIn</Link>
       </div>
     </nav>
   )
