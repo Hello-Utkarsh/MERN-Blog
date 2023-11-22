@@ -1,10 +1,12 @@
 const express = require('express')
 const ConnectToMongo = require('./db')
+const cors = require('cors')
 const app = express()
 // const expressValidator = require('express-validator')
 const port = 3000
 
 ConnectToMongo()
+app.use(cors())
 app.use(express.json())
 // app.use(expressValidator())
 
