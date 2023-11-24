@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import { Form, Link } from 'react-router-dom'
+import { Form, Link, useNavigate } from 'react-router-dom'
 import { useForm, Controller } from "react-hook-form";
 
 const Signin = () => {
+  const navigate = useNavigate()
 
   const { control, handleSubmit, formState: { errors } } = useForm();
   const [success, setSuccess] = useState("")
@@ -25,6 +26,7 @@ const Signin = () => {
       const data = await response.json();
       if (response.status == 200) {
         setSuccess(true)
+        navigate("/home")
       }
       console.log(data.authtoken)
       // localStorage.setItem("token", data.authtoken)
