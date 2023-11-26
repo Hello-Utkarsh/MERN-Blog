@@ -66,7 +66,7 @@ router.post('/login', [
         const authtoken = jwt.sign(data, process.env.VITE_JWT_SECRET);
 
         // LOGGED IN
-        res.status(201).json({ message: "User logged in successfully", authtoken });
+        res.status(200).json({ message: "User logged in successfully", authtoken });
     } catch (error) {
         res.json(error.message);
     }

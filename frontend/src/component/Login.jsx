@@ -1,13 +1,38 @@
 import React, { useState } from 'react'
-import { Form, Link } from 'react-router-dom'
+import { Form, Link, useNavigate } from 'react-router-dom'
 import { useForm, Controller } from "react-hook-form";
 
 const Login = () => {
 
-  const { control, handleSubmit, formState: { errors } } = useForm();
+  const navigate = useNavigate()
 
-  const handleLogin = (data) => {
-    console.log(data)
+  const { control, handleSubmit, formState: { errors } } = useForm();
+  const [success, setSuccess] = useState("")
+
+  const handleLogin = async(user) => {
+    
+    try{
+      const response = await fetch('http://localhost:3000/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: user.email,
+          password: user.password
+        }),
+      });
+
+      const data = await response.json();
+      if (response.status == 200) {
+        setSuccess(true)
+        navigate("/home")
+      }
+      console.log(response)
+      // localStorage.setItem("token", data.authtoken)
+    } catch (error) {
+      console.error('Error:', error.message);
+    }
   }
 
   return (
@@ -27,7 +52,7 @@ const Login = () => {
             }}
             render={({ field }) => (
               <>
-                <input name='email' value={user.email}  {...field} className='rounded-md px-2 h-8' type="text" />
+                <input name='email'  {...field} className='rounded-md px-2 h-8' type="text" />
                 {errors.email && <p className='text-sm text-red-600 font-medium'>{errors.email.message}</p>}
               </>
             )}
