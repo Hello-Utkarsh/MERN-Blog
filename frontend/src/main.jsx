@@ -9,6 +9,8 @@ import './index.css'
 import Login from './component/Login.jsx';
 import Signin from './component/Signin.jsx';
 import Home from './component/Home.jsx';
+import Blog_card from './component/Blog_card.jsx';
+import Blog_detail from './component/Blog_detail.jsx';
 
 const router = createBrowserRouter([
   {
@@ -26,6 +28,10 @@ const router = createBrowserRouter([
   {
     path: "/home",
     element: <Home/>,
+  },
+  {
+    path: "/home/post/:id",
+    element: <Blog_detail/>,
   },
 ]);
 
