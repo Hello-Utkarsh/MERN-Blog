@@ -11,6 +11,7 @@ import Signin from './component/Signin.jsx';
 import Home from './component/Home.jsx';
 import Blog_card from './component/Blog_card.jsx';
 import Blog_detail from './component/Blog_detail.jsx';
+import Create_post from './component/Create_post.jsx';
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
   {
     path: "/home/post/:id",
     element: <Blog_detail/>,
+  },
+  {
+    path: "/home/post/create",
+    element: <Create_post/>,
   },
 ]);
 

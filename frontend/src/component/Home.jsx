@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import Blog_card from './Blog_card'
 
 const Home = () => {
+    let id = 5
     let title = "Bitcoin: Decentralized Digital Currency and the Future of Peer-to-Peer Transactions"
     let body = "Decentralized digital currency, operates on blockchain, limited supply, peer-to-peer transactions, volatile value, potential store of value or payment method."
     return (
@@ -15,13 +16,18 @@ const Home = () => {
                 </div>
             </nav>
             <div className='m-8 flex flex-col items-center'>
-                <Blog_card title = {title} body = {body} img_url = "https://th.bing.com/th?id=OSK.HEROu9H3ZxVAq44jb9Jv0eitJt7Rk8ArgSbDL6b1zkZ3XfI&w=384&h=228&c=1&rs=2&o=6&dpr=1.4&pid=SANGAM"/>
-                <Blog_card title = {title} body = {body} img_url = "https://th.bing.com/th?id=OSK.HEROu9H3ZxVAq44jb9Jv0eitJt7Rk8ArgSbDL6b1zkZ3XfI&w=384&h=228&c=1&rs=2&o=6&dpr=1.4&pid=SANGAM"/>
-                <Blog_card title = {title} body = {body} img_url = "https://th.bing.com/th?id=OSK.HEROu9H3ZxVAq44jb9Jv0eitJt7Rk8ArgSbDL6b1zkZ3XfI&w=384&h=228&c=1&rs=2&o=6&dpr=1.4&pid=SANGAM"/>
-                <Blog_card title = {title} body = {body} img_url = "https://th.bing.com/th?id=OSK.HEROu9H3ZxVAq44jb9Jv0eitJt7Rk8ArgSbDL6b1zkZ3XfI&w=384&h=228&c=1&rs=2&o=6&dpr=1.4&pid=SANGAM"/>
-                <Blog_card title = {title} body = {body} img_url = "https://th.bing.com/th?id=OSK.HEROu9H3ZxVAq44jb9Jv0eitJt7Rk8ArgSbDL6b1zkZ3XfI&w=384&h=228&c=1&rs=2&o=6&dpr=1.4&pid=SANGAM"/>
-                <Blog_card title = {title} body = {body} img_url = "https://th.bing.com/th?id=OSK.HEROu9H3ZxVAq44jb9Jv0eitJt7Rk8ArgSbDL6b1zkZ3XfI&w=384&h=228&c=1&rs=2&o=6&dpr=1.4&pid=SANGAM"/>
-                
+                <Link to={`/home/post/${id}`}>
+                    <Blog_card title={title} body={body} img_url="https://th.bing.com/th?id=OSK.HEROu9H3ZxVAq44jb9Jv0eitJt7Rk8ArgSbDL6b1zkZ3XfI&w=384&h=228&c=1&rs=2&o=6&dpr=1.4&pid=SANGAM" />
+                </Link>
+                <Link to={`/home/post/${id}`}>
+                    <Blog_card title={title} body={body} img_url="https://th.bing.com/th?id=OSK.HEROu9H3ZxVAq44jb9Jv0eitJt7Rk8ArgSbDL6b1zkZ3XfI&w=384&h=228&c=1&rs=2&o=6&dpr=1.4&pid=SANGAM" />
+                </Link>
+                <Link to={`/home/post/${id}`}>
+                    <Blog_card title={title} body={body} img_url="https://th.bing.com/th?id=OSK.HEROu9H3ZxVAq44jb9Jv0eitJt7Rk8ArgSbDL6b1zkZ3XfI&w=384&h=228&c=1&rs=2&o=6&dpr=1.4&pid=SANGAM" />
+                </Link>
+                <Link to={`/home/post/${id}`}>
+                    <Blog_card title={title} body={body} img_url="https://th.bing.com/th?id=OSK.HEROu9H3ZxVAq44jb9Jv0eitJt7Rk8ArgSbDL6b1zkZ3XfI&w=384&h=228&c=1&rs=2&o=6&dpr=1.4&pid=SANGAM" />
+                </Link>
             </div>
         </div>
     )
