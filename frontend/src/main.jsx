@@ -12,6 +12,7 @@ import Home from './component/Home.jsx';
 import Blog_card from './component/Blog_card.jsx';
 import Blog_detail from './component/Blog_detail.jsx';
 import Create_post from './component/Create_post.jsx';
+import Edit_post from './component/Edit_post.jsx';
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
   {
     path: "/home/post/:id",
     element: <Blog_detail/>,
+  },
+  {
+    path: "/home/post/edit_post/:id",
+    element: <Edit_post/>,
   },
   {
     path: "/home/post/create",
