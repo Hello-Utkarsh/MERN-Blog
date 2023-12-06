@@ -13,6 +13,7 @@ import Blog_card from './component/Blog_card.jsx';
 import Blog_detail from './component/Blog_detail.jsx';
 import Create_post from './component/Create_post.jsx';
 import Edit_post from './component/Edit_post.jsx';
+import Profile from './component/Profile.jsx';
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
   {
     path: "/home",
     element: <Home/>,
+  },
+  {
+    path: "/profile/:id",
+    element: <Profile/>,
   },
   {
     path: "/home/post/:id",
