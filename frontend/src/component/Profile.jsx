@@ -26,7 +26,10 @@ const Profile = () => {
         </div>
       </div>
       <div className='flex flex-col ml-[25%] w-9/12'>
-        <h1 className='text-3xl font-semibold text-center p-6'>Posts</h1>
+        <div className='flex justify-between w-2/4 ml-[40%]'>
+          <h1 className='text-3xl font-semibold text-center p-6'>Posts</h1>
+          <Link to={'/home/post/create'} className='bg-[#f14843] w-24 rounded-xl font-medium text-center py-2 my-auto'>Create Post</Link>
+        </div>
         <Link to={`/home/post/${id}`}>
           <Blog_card title={title} body={body} img_url="https://th.bing.com/th?id=OSK.HEROu9H3ZxVAq44jb9Jv0eitJt7Rk8ArgSbDL6b1zkZ3XfI&w=384&h=228&c=1&rs=2&o=6&dpr=1.4&pid=SANGAM" />
         </Link>
