@@ -1,12 +1,30 @@
 import React from 'react'
 import { useForm, Controller } from 'react-hook-form';
-import { Form } from 'react-router-dom'
+import { Form, useNavigate } from 'react-router-dom'
 
 const Create_post = () => {
     const { control, handleSubmit, formState: { errors } } = useForm();
+    const navigate = useNavigate()
+    const auth_token = localStorage.getItem('token')
 
-    let handlePost = (user) => {
-        console.log(user)
+    let handlePost = async (post) => {
+        try {
+            await fetch('http://localhost:3000/notes/createblog', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'auth-token': auth_token
+                },
+                body: JSON.stringify({
+                    title: post.title,
+                    discription: post.Description,
+                    tag: "learning"
+                }),
+            });
+            navigate("/profile")
+        } catch (error) {
+            console.error('Error:', error.message);
+        }
     }
     return (
         <Form onSubmit={handleSubmit(handlePost)} className='mx-auto flex w-10/12 my-10'>
@@ -27,7 +45,7 @@ const Create_post = () => {
                             </>
                         )}
                     />
-                    
+
                 </div>
                 <div className='flex flex-col mx-auto w-6/12 my-4'>
                     <label htmlFor="" className='my-1'>Description</label>

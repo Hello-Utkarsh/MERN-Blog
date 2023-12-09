@@ -1,22 +1,23 @@
 import React from 'react'
 import Navbar from './Navbar'
+import { Link } from 'react-router-dom'
 
 const Blog_detail = () => {
     return (
         <div>
-            <Navbar />
-            <div className='my-5 mx-auto flex flex-col justify-end'>
-                <div className='flex justify-end items-center'>
-                    <h1 className='text-3xl font-bold w-8/12 text-center mr-3'>Bitcoin: Decentralized Digital Currency and the Future of Peer-to-Peer Transactions</h1>
+            <div className='my-2 mx-auto flex flex-col'>
+                <div className='flex justify-between mx-8 items-center'>
+                    <h1 className='text-4xl font-semibold'>Dev.Blog</h1>
                     <div className='flex justify-around items-center w-2/12'>
-                        <button type="submit" className='w-20 py-2 my-5 rounded-xl font-medium text-center bg-[#f14843]'>Edit</button>
+                    <Link to={'/home/post/edit_post/1'} className='bg-[#f14843] w-20 rounded-xl font-medium text-center py-2 my-auto'>Edit</Link>
                         <button type="submit" className='w-20 py-2 my-5 rounded-xl font-medium text-center bg-[#f14843]'>Delete</button>
                     </div>
                 </div>
             </div>
             <div className='w-11/12 mx-auto'>
                 <img className='w-7/12 mx-auto my-4' src="https://th.bing.com/th?id=OSK.HEROu9H3ZxVAq44jb9Jv0eitJt7Rk8ArgSbDL6b1zkZ3XfI&w=384&h=228&c=1&rs=2&o=6&dpr=1.4&pid=SANGAM" alt="" />
-                <p className='w-10/12 mx-auto my-8 text-lg'>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestiae voluptatem magnam beatae odit assumenda nulla nam. Unde dolorem, sint, dolorum temporibus voluptate dolores quod corporis fuga quasi ratione distinctio vitae.
+                <h1 className='text-3xl font-bold w-full text-center mx-auto mt-8'>Bitcoin: Decentralized Digital Currency and the Future of Peer-to-Peer Transactions</h1>
+                <p className='w-10/12 mx-auto my-5 text-lg'>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestiae voluptatem magnam beatae odit assumenda nulla nam. Unde dolorem, sint, dolorum temporibus voluptate dolores quod corporis fuga quasi ratione distinctio vitae.
                     Consectetur ad suscipit excepturi deserunt esse accusamus dolores minus molestiae aperiam nesciunt optio alias iusto repellat veniam et mollitia cum, fuga qui iste harum at doloremque. Ex asperiores ipsum iure.
                     Reiciendis culpa consequuntur numquam quia ipsum harum est eveniet ut? Eveniet dolorum alias possimus animi, doloremque maiores cum, provident quis voluptate nemo odit labore nihil blanditiis iure deleniti magnam vero.
                     Ea quisquam, labore assumenda pariatur libero neque hic unde eos sapiente, exercitationem facere odit iure ipsum. Delectus ea, nisi molestiae ducimus cum voluptas ipsam voluptates sint enim, at, repellat necessitatibus?</p>

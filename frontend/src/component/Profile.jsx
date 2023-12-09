@@ -1,8 +1,33 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Blog_card from './Blog_card'
 import { Link } from 'react-router-dom'
 
 const Profile = () => {
+  const [userBlogs, setblogs] = useState("")
+  const auth_token = localStorage.getItem('token')
+
+  
+  
+  useEffect(() => {
+    const fetch_blogs = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/notes/fetchblogs', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'auth-token': auth_token
+          }
+        });
+        const blogs = await response.json()
+        if (blogs.length !== 0) {
+          setblogs(blogs)
+        }
+      } catch (error) {
+        console.error('Error:', error.message);
+      }
+    }
+    fetch_blogs()
+  }, [])
 
   let id = 5
   let title = "Bitcoin: Decentralized Digital Currency and the Future of Peer-to-Peer Transactions"
@@ -30,21 +55,12 @@ const Profile = () => {
           <h1 className='text-3xl font-semibold text-center p-6'>Posts</h1>
           <Link to={'/home/post/create'} className='bg-[#f14843] w-24 rounded-xl font-medium text-center py-2 my-auto'>Create Post</Link>
         </div>
-        <Link to={`/home/post/${id}`}>
-          <Blog_card title={title} body={body} img_url="https://th.bing.com/th?id=OSK.HEROu9H3ZxVAq44jb9Jv0eitJt7Rk8ArgSbDL6b1zkZ3XfI&w=384&h=228&c=1&rs=2&o=6&dpr=1.4&pid=SANGAM" />
-        </Link>
-        <Link to={`/home/post/${id}`}>
-          <Blog_card title={title} body={body} img_url="https://th.bing.com/th?id=OSK.HEROu9H3ZxVAq44jb9Jv0eitJt7Rk8ArgSbDL6b1zkZ3XfI&w=384&h=228&c=1&rs=2&o=6&dpr=1.4&pid=SANGAM" />
-        </Link>
-        <Link to={`/home/post/${id}`}>
-          <Blog_card title={title} body={body} img_url="https://th.bing.com/th?id=OSK.HEROu9H3ZxVAq44jb9Jv0eitJt7Rk8ArgSbDL6b1zkZ3XfI&w=384&h=228&c=1&rs=2&o=6&dpr=1.4&pid=SANGAM" />
-        </Link>
-        <Link to={`/home/post/${id}`}>
-          <Blog_card title={title} body={body} img_url="https://th.bing.com/th?id=OSK.HEROu9H3ZxVAq44jb9Jv0eitJt7Rk8ArgSbDL6b1zkZ3XfI&w=384&h=228&c=1&rs=2&o=6&dpr=1.4&pid=SANGAM" />
-        </Link>
-        <Link to={`/home/post/${id}`}>
-          <Blog_card title={title} body={body} img_url="https://th.bing.com/th?id=OSK.HEROu9H3ZxVAq44jb9Jv0eitJt7Rk8ArgSbDL6b1zkZ3XfI&w=384&h=228&c=1&rs=2&o=6&dpr=1.4&pid=SANGAM" />
-        </Link>
+        {userBlogs ? userBlogs.map((blogs) => {
+          return <Link to={`/home/post/${id}`}>
+            <Blog_card title={blogs.title} body={blogs.discription} img_url="https://th.bing.com/th?id=OSK.HEROu9H3ZxVAq44jb9Jv0eitJt7Rk8ArgSbDL6b1zkZ3XfI&w=384&h=228&c=1&rs=2&o=6&dpr=1.4&pid=SANGAM" />
+          </Link>
+        }) : <h1 className='text-lg mx-auto mt-16'>No Posts</h1>}
+
       </div>
     </div>
   )

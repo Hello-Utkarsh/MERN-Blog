@@ -29,7 +29,7 @@ const Login = () => {
         navigate("/home")
       }
       console.log(response)
-      // localStorage.setItem("token", data.authtoken)
+      localStorage.setItem("token", data.authtoken)
     } catch (error) {
       console.error('Error:', error.message);
     }
