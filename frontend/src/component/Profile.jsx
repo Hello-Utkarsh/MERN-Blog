@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import Blog_card from './Blog_card'
 import { Link } from 'react-router-dom'
+// import jwt from 'jsonwebtoken';
 
 const Profile = () => {
   const [userBlogs, setblogs] = useState("")
   const auth_token = localStorage.getItem('token')
+  const [name, setname] = useState("")
+  const [email, setemail] = useState("")
 
   
   
@@ -26,6 +29,24 @@ const Profile = () => {
         console.error('Error:', error.message);
       }
     }
+
+    const fetch_user = async() => {
+      try {
+        const response = await fetch('http://localhost:3000/auth/fetchuser', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'token': auth_token
+          }
+        });
+        const user = await response.json()
+        setname(user.user_data.user.name)
+        setemail(user.user_data.user.email)
+      } catch (error) {
+        console.log('Error:', error.message)
+      }
+    }
+    fetch_user()
     fetch_blogs()
   }, [])
 
@@ -39,11 +60,11 @@ const Profile = () => {
         <h1 className='text-xl font-bold text-center'>Profile</h1>
         <div className='my-5'>
           <h1 className='text-lg font-semibold'>Name</h1>
-          <h1>Xyz</h1>
+          <h1>{name}</h1>
         </div>
         <div className='my-5'>
           <h1 className='text-lg font-semibold'>Email</h1>
-          <h1>xyz@gmail.com</h1>
+          <h1>{email}</h1>
         </div>
         <div className='my-5'>
           <h1 className='text-lg font-semibold'>About me</h1>

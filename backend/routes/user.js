@@ -29,12 +29,24 @@ router.post('/createuser', [
             })
             const data = {
                 user: {
-                    id: user.id
+                    id: user.id,
+                    name: user.name,
+                    email: user.email,
                 }
             }
             const authtoken = jwt.sign(data, process.env.VITE_JWT_SECRET);
             res.send({ "success": "Successfully created", authtoken })
         }
+    } catch (error) {
+        res.send(error.message)
+    }
+})
+
+router.get('/fetchuser', async (req, res) => {
+    try {
+        // console.log(req.headers.token)
+        let user_data = jwt.verify(req.headers.token, process.env.VITE_JWT_SECRET)
+        res.send({ user_data })
     } catch (error) {
         res.send(error.message)
     }
@@ -60,7 +72,9 @@ router.post('/login', [
         }
         const data = {
             user: {
-                id: user.id
+                id: user.id,
+                name: user.name,
+                email: user.email,
             }
         }
         const authtoken = jwt.sign(data, process.env.VITE_JWT_SECRET);
