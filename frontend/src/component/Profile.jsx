@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Blog_card from './Blog_card'
 import { Link } from 'react-router-dom'
+import { MyContext, MyState } from '../MyContext'
 // import jwt from 'jsonwebtoken';
 
 const Profile = () => {
@@ -8,10 +9,13 @@ const Profile = () => {
   const auth_token = localStorage.getItem('token')
   const [name, setname] = useState("")
   const [email, setemail] = useState("")
+  const context = useContext(MyContext);
+  const {text} = context
 
   
   
   useEffect(() => {
+    console.log(text)
     const fetch_blogs = async () => {
       try {
         const response = await fetch('http://localhost:3000/notes/fetchblogs', {

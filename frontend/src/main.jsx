@@ -14,44 +14,11 @@ import Blog_detail from './component/Blog_detail.jsx';
 import Create_post from './component/Create_post.jsx';
 import Edit_post from './component/Edit_post.jsx';
 import Profile from './component/Profile.jsx';
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <App/>,
-  },
-  {
-    path: "/login",
-    element: <Login/>,
-  },
-  {
-    path: "/signin",
-    element: <Signin/>,
-  },
-  {
-    path: "/home",
-    element: <Home/>,
-  },
-  {
-    path: "/profile",
-    element: <Profile/>,
-  },
-  {
-    path: "/home/post/:id",
-    element: <Blog_detail/>,
-  },
-  {
-    path: "/home/post/edit_post/:id",
-    element: <Edit_post/>,
-  },
-  {
-    path: "/home/post/create",
-    element: <Create_post/>,
-  },
-]);
+// import { MyContext } from './MyContext.jsx';
+import Landing from './component/Landing.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <App/>
   </React.StrictMode>,
 )
