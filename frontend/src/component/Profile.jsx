@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Blog_card from './Blog_card'
 import { Link } from 'react-router-dom'
-import { MyContext, MyState } from '../MyContext'
+// import { MyContext, MyState } from '../MyContext'
 // import jwt from 'jsonwebtoken';
 
 const Profile = () => {
@@ -9,13 +9,13 @@ const Profile = () => {
   const auth_token = localStorage.getItem('token')
   const [name, setname] = useState("")
   const [email, setemail] = useState("")
-  const context = useContext(MyContext);
-  const {text} = context
+  // const context = useContext(MyContext);
+  // const {notes, setnotes} = context
 
   
   
   useEffect(() => {
-    console.log(text)
+    
     const fetch_blogs = async () => {
       try {
         const response = await fetch('http://localhost:3000/notes/fetchblogs', {
@@ -33,6 +33,7 @@ const Profile = () => {
         console.error('Error:', error.message);
       }
     }
+
 
     const fetch_user = async() => {
       try {
@@ -82,7 +83,7 @@ const Profile = () => {
         </div>
         {userBlogs ? userBlogs.map((blogs) => {
           return <Link to={`/home/post/${id}`}>
-            <Blog_card title={blogs.title} body={blogs.discription} img_url="https://th.bing.com/th?id=OSK.HEROu9H3ZxVAq44jb9Jv0eitJt7Rk8ArgSbDL6b1zkZ3XfI&w=384&h=228&c=1&rs=2&o=6&dpr=1.4&pid=SANGAM" />
+            <Blog_card title={blogs.title} blog={blogs} id={blogs._id} body={blogs.discription}  img_url="https://th.bing.com/th?id=OSK.HEROu9H3ZxVAq44jb9Jv0eitJt7Rk8ArgSbDL6b1zkZ3XfI&w=384&h=228&c=1&rs=2&o=6&dpr=1.4&pid=SANGAM" />
           </Link>
         }) : <h1 className='text-lg mx-auto mt-16'>No Posts</h1>}
 

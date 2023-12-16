@@ -90,19 +90,19 @@ router.put('/updateblog/:id', fetchuser, async (req, res) => {
     // {newblog.user, newblog.id} = {blog.user, blog.id}
 
     if (!blog) {
-      res.send("Not Found")
+      return res.send("Not Found")
     }
 
     if (blog.user.toString() !== req.user.id) {
-      res.send("Unauthorized")
+      return res.send("Unauthorized")
     }
 
     blog = await Blogs.findByIdAndUpdate(req.params.id, { $set: newblog }, { new: true })
 
-    res.send(blog)
+    return res.send(blog)
 
   } catch (error) {
-    res.send(error.message)
+    return res.send(error.message)
   }
 })
 
@@ -112,16 +112,16 @@ router.delete('/deleteblog/:id', fetchuser, async (req, res) => {
   let blog = await Blogs.findById(req.params.id)
 
   if (!blog) {
-    res.send("Not Found")
+    return res.json({error: "Not Found"})
   }
 
 
   if (blog.user.toString() !== req.user.id) {
-    res.send("Unauthorized")
+    return res.send("Unauthorized")
   }
 
   blog = await Blogs.deleteOne({ _id: req.params.id })
-  res.send("Successfully Deleted")
+  return res.send("Successfully Deleted")
 
 })
 

@@ -1,15 +1,37 @@
-import React from 'react'
-import Navbar from './Navbar'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 const Blog_detail = () => {
+    const auth_token = localStorage.getItem('token')
+    const [comment, setComment] = useState("")
+    const blog_id = localStorage.getItem("blogId")
+
+    useEffect(() => {
+        const fetch_comments = async (id) => {
+            try {
+                const response = await fetch(`http://localhost:3000/notes/comments/fetchcomments/${id}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'auth-token': auth_token
+                    }
+                });
+                const comments = await response.json()
+                if (comments.lenght >= 1) {
+                    setComment(comments)
+                }
+            } catch (error) {
+                console.error('Error:', error.message);
+            }
+        }
+        fetch_comments(blog_id)
+    }, [])
     return (
         <div>
             <div className='my-2 mx-auto flex flex-col'>
                 <div className='flex justify-between mx-8 items-center'>
                     <h1 className='text-4xl font-semibold'>Dev.Blog</h1>
                     <div className='flex justify-around items-center w-2/12'>
-                    <Link to={'/home/post/edit_post/1'} className='bg-[#f14843] w-20 rounded-xl font-medium text-center py-2 my-auto'>Edit</Link>
+                        <Link to={'/home/post/edit_post/1'} className='bg-[#f14843] w-20 rounded-xl font-medium text-center py-2 my-auto'>Edit</Link>
                         <button type="submit" className='w-20 py-2 my-5 rounded-xl font-medium text-center bg-[#f14843]'>Delete</button>
                     </div>
                 </div>
@@ -24,22 +46,25 @@ const Blog_detail = () => {
             </div>
             <div className='w-11/12 mx-auto flex flex-col'>
                 <h3 className='text-lg font-medium w-10/12 mx-auto'>Comments</h3>
-                <div className='w-10/12 mx-auto my-4 text-slate-100'>
-                    <div className='bg-gray-500 rounded-lg p-3'>
-                        <div className='flex justify-between'>
-                            <h1>username</h1>
-                            <div className='w-14 flex justify-between'>
-                                <span className="material-symbols-outlined text-lg">
-                                    edit
-                                </span>
-                                <span className="material-symbols-outlined text-lg font-semibold">
-                                    delete
-                                </span>
+                {comment ? Array.from(comment).map(comment => {
+                    return <div className='w-10/12 mx-auto my-4 text-slate-100'>
+                        <div className='bg-gray-500 rounded-lg p-3'>
+                            <div className='flex justify-between'>
+                                <h1>username</h1>
+                                <div className='w-14 flex justify-between'>
+                                    <span className="material-symbols-outlined text-lg">
+                                        edit
+                                    </span>
+                                    <span className="material-symbols-outlined text-lg font-semibold">
+                                        delete
+                                    </span>
+                                </div>
                             </div>
+                            <p className='w-11/12 my-1'>{comment.discription}</p>
                         </div>
-                        <p className='w-11/12 my-1'>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Exercitationem soluta, quaerat aperiam rem at dolores quasi. Impedit dolore ex voluptatem obcaecati eum ea voluptatum, reprehenderit modi facilis? Accusantium, iste molestiae!</p>
                     </div>
-                </div>
+                }) : <h1 className='text-lg mx-auto my-9'>No Comments</h1>}
+
             </div>
             <div className='w-11/12 mx-auto flex justify-center mb-4'>
                 <input type="text" placeholder='Comment' className='w-9/12 h-9 rounded-lg px-4' />

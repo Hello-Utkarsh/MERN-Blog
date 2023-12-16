@@ -63,7 +63,7 @@ router.put('/updatecomment/:id', fetchuser, async (req, res) => {
     }
 
     if (!discription) {
-      res.send("Please enter something")
+      return res.send("Please enter something")
     }
     newcomment.discription = discription
 
@@ -72,7 +72,7 @@ router.put('/updatecomment/:id', fetchuser, async (req, res) => {
     // {newblog.user, newblog.id} = {blog.user, blog.id}
 
     if (!comment) {
-      res.send("Not Found")
+      return res.send("Not Found")
     }
 
     // if (comment.user.toString() !== req.user.id) {
@@ -82,10 +82,10 @@ router.put('/updatecomment/:id', fetchuser, async (req, res) => {
     comment = await Comment.findByIdAndUpdate(req.params.id, { $set: newcomment }, { new: true })
     console.log(newcomment)
 
-    res.send(comment)
+    return res.send(comment)
 
   } catch (error) {
-    res.send(error.message)
+    return res.send(error.message)
   }
 })
 
@@ -95,7 +95,7 @@ router.delete('/deletecomment/:id', fetchuser, async (req, res) => {
   let comment = await Comment.findById(req.params.id)
 
   if (!comment) {
-    res.send("Not Found")
+    return res.status(404).send("Not Found")
   }
 
 

@@ -3,10 +3,15 @@ import { createContext, useState } from 'react';
 const MyContext = createContext("");
 
 const MyState = (props) => {
-    const [text, setText] = useState("hello");
+    const [blogs, setBlogs] = useState("hello");
+
+    const setnotes = (x) => {
+        setNotes(x)
+    }
+
 
     return(
-        <MyContext.Provider value = {{text}}>
+        <MyContext.Provider value = {{blogs, setBlogs}}>
             {props.children}
         </MyContext.Provider>
     )
