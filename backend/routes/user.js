@@ -15,7 +15,7 @@ router.post('/createuser', [
         // checking if there exist any other user with same email
         let exist_user = User.findOne({ "email": req.body.email })
         if (!exist_user) {
-            res.send("Please use a different email")
+            return res.send("Please use a different email")
         }
         else {
             const salt = bcrypt.genSaltSync(10);
@@ -35,7 +35,7 @@ router.post('/createuser', [
                 }
             }
             const authtoken = jwt.sign(data, process.env.VITE_JWT_SECRET);
-            res.send({ "success": "Successfully created", authtoken })
+            return res.send({ "success": "Successfully created", authtoken })
         }
     } catch (error) {
         res.send(error.message)
@@ -46,9 +46,9 @@ router.get('/fetchuser', async (req, res) => {
     try {
         // console.log(req.headers.token)
         let user_data = jwt.verify(req.headers.token, process.env.VITE_JWT_SECRET)
-        res.send({ user_data })
+        return res.send({ user_data })
     } catch (error) {
-        res.send(error.message)
+        return res.send(error.message)
     }
 })
 
@@ -62,13 +62,13 @@ router.post('/login', [
 
         // IF DOES NOT EXIST
         if (!user) {
-            res.send("Incorrect email or password")
+            return res.send("Incorrect email or password")
         }
 
         // IF EXIST THEN CHECKING THE PASSWORD
         const auth = await bcrypt.compare(req.body.password, user.password)
         if (!auth) {
-            res.send("Incorrect email or password")
+            return res.send("Incorrect email or password")
         }
         const data = {
             user: {
@@ -80,9 +80,9 @@ router.post('/login', [
         const authtoken = jwt.sign(data, process.env.VITE_JWT_SECRET);
 
         // LOGGED IN
-        res.status(200).json({ message: "User logged in successfully", authtoken });
+        return res.status(200).json({ message: "User logged in successfully", authtoken });
     } catch (error) {
-        res.json(error.message);
+        return res.json(error.message);
     }
 
 

@@ -5,6 +5,16 @@ const Blogs = require('../models/Blogs')
 const fetchuser = require('../middleware/fetchuser')
 const jwt = require('jsonwebtoken')
 
+// FETCH BLOGS
+router.get('/fetchallblogs', fetchuser, async (req,res) => {
+  try {
+    let all_blogs = await Blogs.find()
+    return res.send(all_blogs)
+  } catch (error) {
+    return res.send(error.message);
+  }
+})
+
 // FETCH ALL BLOGS
 router.get('/fetchblogs', fetchuser, async (req, res) => {
   try {
@@ -23,7 +33,7 @@ router.get('/fetchblogs', fetchuser, async (req, res) => {
 
 
   } catch (error) {
-    res.send(error.message);
+    return res.send(error.message);
   }
 })
 

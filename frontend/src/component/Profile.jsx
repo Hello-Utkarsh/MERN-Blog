@@ -12,10 +12,10 @@ const Profile = () => {
   // const context = useContext(MyContext);
   // const {notes, setnotes} = context
 
-  
-  
+
+
   useEffect(() => {
-    
+
     const fetch_blogs = async () => {
       try {
         const response = await fetch('http://localhost:3000/notes/fetchblogs', {
@@ -35,7 +35,7 @@ const Profile = () => {
     }
 
 
-    const fetch_user = async() => {
+    const fetch_user = async () => {
       try {
         const response = await fetch('http://localhost:3000/auth/fetchuser', {
           method: 'GET',
@@ -79,11 +79,14 @@ const Profile = () => {
       <div className='flex flex-col ml-[25%] w-9/12'>
         <div className='flex justify-between w-2/4 ml-[40%]'>
           <h1 className='text-3xl font-semibold text-center p-6'>Posts</h1>
-          <Link to={'/home/post/create'} className='bg-[#f14843] w-24 rounded-xl font-medium text-center py-2 my-auto'>Create Post</Link>
+          <div className='flex w-2/5 justify-between'>
+            <Link to={'/home'} className='bg-[#f14843] w-20 rounded-xl font-medium text-center py-2 my-auto'>Home</Link>
+            <Link to={'/home/post/create'} className='bg-[#f14843] w-24 rounded-xl font-medium text-center py-2 my-auto'>Create Post</Link>
+          </div>
         </div>
         {userBlogs ? userBlogs.map((blogs) => {
           return <Link to={`/home/post/${id}`}>
-            <Blog_card title={blogs.title} blog={blogs} id={blogs._id} body={blogs.discription}  img_url="https://th.bing.com/th?id=OSK.HEROu9H3ZxVAq44jb9Jv0eitJt7Rk8ArgSbDL6b1zkZ3XfI&w=384&h=228&c=1&rs=2&o=6&dpr=1.4&pid=SANGAM" />
+            <Blog_card title={blogs.title} blog={blogs} id={blogs._id} body={blogs.discription} img_url="https://th.bing.com/th?id=OSK.HEROu9H3ZxVAq44jb9Jv0eitJt7Rk8ArgSbDL6b1zkZ3XfI&w=384&h=228&c=1&rs=2&o=6&dpr=1.4&pid=SANGAM" />
           </Link>
         }) : <h1 className='text-lg mx-auto mt-16'>No Posts</h1>}
 

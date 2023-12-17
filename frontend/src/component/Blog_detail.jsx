@@ -16,7 +16,7 @@ const Blog_detail = () => {
                     }
                 });
                 const comments = await response.json()
-                if (comments.lenght >= 1) {
+                if (comments.length >= 1) {
                     setComment(comments)
                 }
             } catch (error) {
