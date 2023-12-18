@@ -31,6 +31,8 @@ router.get('/fetchcomments/:id', fetchuser, async (req, res) => {
 router.post(`/postcomment/:id`, fetchuser, async (req, res) => {
 
   try {
+    let user_data = jwt.verify(req.headers["auth-token"], process.env.VITE_JWT_SECRET)
+    let user = user_data.user.name
     let comment_discription = req.body.discription
     if (!comment_discription) {
       res.send("Please enter something")
@@ -38,7 +40,8 @@ router.post(`/postcomment/:id`, fetchuser, async (req, res) => {
 
     // CREATING THE BLOG
     let comment = new Comment({
-        post_id: req.params.id,
+      post_id: req.params.id,
+      user: user,
       discription: comment_discription,
     })
 
@@ -91,8 +94,8 @@ router.put('/updatecomment/:id', fetchuser, async (req, res) => {
 
 // // DELETE BLOG
 router.delete('/deletecomment/:id', fetchuser, async (req, res) => {
-
-  let comment = await Comment.findById(req.params.id)
+  try {
+    let comment = await Comment.findById(req.params.id)
 
   if (!comment) {
     return res.status(404).send("Not Found")
@@ -100,11 +103,17 @@ router.delete('/deletecomment/:id', fetchuser, async (req, res) => {
 
 
   // if (blog.user.toString() !== req.user.id) {
-  //   res.send("Unauthorized")
+  //   return res.send("Unauthorized")
   // }
 
   comment = await Comment.deleteOne({ _id: req.params.id })
-  res.send("Successfully Deleted")
+  return res.send("Successfully Deleted")
+
+  } catch (error) {
+    return res.send(error)
+  }
+
+  
 
 })
 

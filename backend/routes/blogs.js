@@ -5,8 +5,8 @@ const Blogs = require('../models/Blogs')
 const fetchuser = require('../middleware/fetchuser')
 const jwt = require('jsonwebtoken')
 
-// FETCH BLOGS
-router.get('/fetchallblogs', fetchuser, async (req,res) => {
+// FETCH ALL BLOGS IN DATABASE
+router.get('/fetchallblogs', fetchuser, async (req, res) => {
   try {
     let all_blogs = await Blogs.find()
     return res.send(all_blogs)
@@ -15,7 +15,7 @@ router.get('/fetchallblogs', fetchuser, async (req,res) => {
   }
 })
 
-// FETCH ALL BLOGS
+// FETCH ALL USER BLOGS
 router.get('/fetchblogs', fetchuser, async (req, res) => {
   try {
     // CHECKING IF NOTE EXIST OR NOT
@@ -122,7 +122,7 @@ router.delete('/deleteblog/:id', fetchuser, async (req, res) => {
   let blog = await Blogs.findById(req.params.id)
 
   if (!blog) {
-    return res.json({error: "Not Found"})
+    return res.json({ error: "Not Found" })
   }
 
 
@@ -132,6 +132,20 @@ router.delete('/deleteblog/:id', fetchuser, async (req, res) => {
 
   blog = await Blogs.deleteOne({ _id: req.params.id })
   return res.send("Successfully Deleted")
+
+})
+
+router.get('/findblog/:id', fetchuser, async (req, res) => {
+  try {
+    let blogId = req.params.id
+    let blog = await Blogs.findById(blogId)
+    if (blog) {
+      return res.send(blog)
+    }
+    res.send("Not blog with this id was found")
+  } catch (error) {
+
+  }
 
 })
 
