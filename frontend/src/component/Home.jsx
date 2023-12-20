@@ -41,7 +41,7 @@ const Home = () => {
             <div className='m-8 flex flex-col items-center'>
                 {blogs ? blogs.map(element => {
                     return <Link to={`/home/post/${id}`}>
-                        <Blog_card title={element.title} body={element.discription} img_url="https://th.bing.com/th?id=OSK.HEROu9H3ZxVAq44jb9Jv0eitJt7Rk8ArgSbDL6b1zkZ3XfI&w=384&h=228&c=1&rs=2&o=6&dpr=1.4&pid=SANGAM" />
+                        <Blog_card title={element.title} body={element.discription} id={element._id} img_url="https://th.bing.com/th?id=OSK.HEROu9H3ZxVAq44jb9Jv0eitJt7Rk8ArgSbDL6b1zkZ3XfI&w=384&h=228&c=1&rs=2&o=6&dpr=1.4&pid=SANGAM" />
                     </Link>
                 }) : <h1 className='text-lg mx-auto my-9'>No Blogs</h1>}
             </div>

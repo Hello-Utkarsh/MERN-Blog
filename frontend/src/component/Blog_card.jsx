@@ -3,12 +3,11 @@ import { MyContext } from '../MyContext';
 
 const Blog_card = (props) => {
   const context = useContext(MyContext);
-  // const { setBlogs } = context
+  let blogId = props.id
   let title = props.title ? props.title : ""
-  let blog = props.blog ? props.blog : ""
   let body = props.body ? props.body : ""
   const set_blogs = () => {
-    localStorage.setItem("blogId", blog._id)
+    localStorage.setItem("blogId", blogId)
   }
 
   return (

@@ -8,6 +8,7 @@ const Login = () => {
 
   const { control, handleSubmit, formState: { errors } } = useForm();
   const [success, setSuccess] = useState("")
+  const [error, setError] = useState("")
 
   const handleLogin = async(user) => {
     
@@ -28,10 +29,9 @@ const Login = () => {
         setSuccess(true)
         navigate("/home")
       }
-      console.log(response)
       localStorage.setItem("token", data.authtoken)
     } catch (error) {
-      console.error('Error:', error.message);
+      console.error('Error:', error);
     }
   }
 

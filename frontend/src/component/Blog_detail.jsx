@@ -7,22 +7,23 @@ const Blog_detail = () => {
     const [blogData, setData] = useState('')
     const blog_id = localStorage.getItem("blogId")
 
-    useEffect(() => {
-
-        const fetchblog = async (id) => {
-            try {
-                const response = await fetch(`http://localhost:3000/notes/findblog/${id}`, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'auth-token': auth_token
-                    }
-                })
-                const blog = await response.json()
-                setData(blog)
-            } catch (error) {
-                
-            }
+    const handleCommentdel = async (e) => {
+        console.log(e.target.getAttribute('id'))
+        const id = e.target.getAttribute('id')
+        try {
+            const response = await fetch(`http://localhost:3000/notes/comments/deletecomment/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'auth-token': auth_token
+                }
+            })
+            fetch_comments()
+        } catch (error) {
+            console.log(error)
         }
+    }
+    useEffect(() => {
 
         const fetch_comments = async (id) => {
             try {
@@ -40,6 +41,21 @@ const Blog_detail = () => {
                 console.error('Error:', error.message);
             }
         }
+        const fetchblog = async (id) => {
+            try {
+                const response = await fetch(`http://localhost:3000/notes/findblog/${id}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'auth-token': auth_token
+                    }
+                })
+                const blog = await response.json()
+                setData(blog)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
         fetchblog(blog_id)
         fetch_comments(blog_id)
     }, [])
@@ -70,7 +86,7 @@ const Blog_detail = () => {
                                     <span className="material-symbols-outlined text-lg">
                                         edit
                                     </span>
-                                    <span className="material-symbols-outlined text-lg font-semibold">
+                                    <span onClick={handleCommentdel} id={comment._id} className="material-symbols-outlined text-lg font-semibold">
                                         delete
                                     </span>
                                 </div>

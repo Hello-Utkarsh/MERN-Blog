@@ -86,7 +86,7 @@ const Profile = () => {
         </div>
         {userBlogs ? userBlogs.map((blogs) => {
           return <Link to={`/home/post/${id}`}>
-            <Blog_card title={blogs.title} blog={blogs} id={blogs._id} body={blogs.discription} img_url="https://th.bing.com/th?id=OSK.HEROu9H3ZxVAq44jb9Jv0eitJt7Rk8ArgSbDL6b1zkZ3XfI&w=384&h=228&c=1&rs=2&o=6&dpr=1.4&pid=SANGAM" />
+            <Blog_card title={blogs.title} id={blogs._id} body={blogs.discription} img_url="https://th.bing.com/th?id=OSK.HEROu9H3ZxVAq44jb9Jv0eitJt7Rk8ArgSbDL6b1zkZ3XfI&w=384&h=228&c=1&rs=2&o=6&dpr=1.4&pid=SANGAM" />
           </Link>
         }) : <h1 className='text-lg mx-auto mt-16'>No Posts</h1>}
 

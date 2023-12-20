@@ -59,12 +59,12 @@ router.post('/login', [
     try {
         // CHECKING IF THE USER EXISTS WITH THE GIVEN EMAIL
         const user = await User.findOne({ "email": req.body.email })
-
+        
         // IF DOES NOT EXIST
         if (!user) {
             return res.send("Incorrect email or password")
         }
-
+        
         // IF EXIST THEN CHECKING THE PASSWORD
         const auth = await bcrypt.compare(req.body.password, user.password)
         if (!auth) {
