@@ -1,12 +1,30 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 
 const Blog_detail = () => {
+    const navigate = useNavigate()
     const auth_token = localStorage.getItem('token')
     const [comment, setComment] = useState("")
     const [verified, setVerified] = useState(false)
     const [blogData, setData] = useState('')
     const blog_id = localStorage.getItem("blogId")
+
+    const Delblog = async () => {
+        try {
+            console.log(blog_id)
+            const response = await fetch(`http://localhost:3000/notes/deleteblog/${blog_id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'auth-token': auth_token
+                }
+            });
+            navigate("/profile")
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     const fetch_comments = async (id) => {
         try {
@@ -80,7 +98,7 @@ const Blog_detail = () => {
                 console.log(error)
             }
         }
-        
+
         fetchblog(blog_id)
         fetch_comments(blog_id)
     }, [])
@@ -91,7 +109,7 @@ const Blog_detail = () => {
                     <h1 className='text-4xl font-semibold'>Dev.Blog</h1>
                     {verified ? <div className='flex justify-around items-center w-2/12'>
                         <Link to={'/home/post/edit_post/1'} className='bg-[#f14843] w-20 rounded-xl font-medium text-center py-2 my-auto'>Edit</Link>
-                        <button type="submit" className='w-20 py-2 my-5 rounded-xl font-medium text-center bg-[#f14843]'>Delete</button>
+                        <button type="submit" onClick={Delblog} className='w-20 py-2 my-5 rounded-xl font-medium text-center bg-[#f14843]'>Delete</button>
                     </div> : <h1></h1>}
                 </div>
             </div>
