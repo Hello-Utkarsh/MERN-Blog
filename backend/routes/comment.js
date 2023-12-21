@@ -6,20 +6,21 @@ const fetchuser = require('../middleware/fetchuser')
 const jwt = require('jsonwebtoken')
 const Comment = require('../models/Comment')
 
-// FETCH ALL BLOGS
+// FETCH ALL COMMENTS
 router.get('/fetchcomments/:id', fetchuser, async (req, res) => {
   try {
+    if (!req.params.id) {
+      return res.status(404).send("Please provide blog id")
+    }
     let all_post_comment = await Comment.find({
       post_id: req.params.id,
     });
-
-    if (!all_post_comment) {
-      return res.json({
-        error: "You do not have any comment",
-      });
+    
+    if (all_post_comment.length == 0) {
+      return res.status(404).json({error: "You do not have any comment"});
     }
 
-    res.send(all_post_comment)
+    return res.send(all_post_comment)
 
 
   } catch (error) {
@@ -95,6 +96,9 @@ router.put('/updatecomment/:id', fetchuser, async (req, res) => {
 // // DELETE BLOG
 router.delete('/deletecomment/:id', fetchuser, async (req, res) => {
   try {
+    if (!req.params.id) {
+      return res.status(404).send("Please provide comment id")
+    }
     let comment = await Comment.findById(req.params.id)
 
   if (!comment) {

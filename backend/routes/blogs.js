@@ -135,6 +135,7 @@ router.delete('/deleteblog/:id', fetchuser, async (req, res) => {
 
 })
 
+// FETCH BLOG
 router.get('/findblog/:id', fetchuser, async (req, res) => {
   try {
     let blogId = req.params.id

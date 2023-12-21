@@ -4,11 +4,31 @@ import { Link } from 'react-router-dom'
 const Blog_detail = () => {
     const auth_token = localStorage.getItem('token')
     const [comment, setComment] = useState("")
+    const [verified, setVerified] = useState(false)
     const [blogData, setData] = useState('')
     const blog_id = localStorage.getItem("blogId")
 
+    const fetch_comments = async (id) => {
+        try {
+            const response = await fetch(`http://localhost:3000/notes/comments/fetchcomments/${id}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'auth-token': auth_token
+                }
+            });
+            const comments = await response.json()
+            if (!response.ok) {
+                setComment(false)
+                throw new Error(`${comments.error}. Status: ${response.status}`);
+            }
+            setComment(comments)
+        } catch (error) {
+            console.error('Error:', error.message);
+        }
+    }
+
     const handleCommentdel = async (e) => {
-        console.log(e.target.getAttribute('id'))
+        // getting id of the comment clicked
         const id = e.target.getAttribute('id')
         try {
             const response = await fetch(`http://localhost:3000/notes/comments/deletecomment/${id}`, {
@@ -18,29 +38,33 @@ const Blog_detail = () => {
                     'auth-token': auth_token
                 }
             })
-            fetch_comments()
+            fetch_comments(blog_id)
         } catch (error) {
             console.log(error)
         }
     }
+
     useEffect(() => {
 
-        const fetch_comments = async (id) => {
+        const verifyOwner = async (blog_user) => {
             try {
-                const response = await fetch(`http://localhost:3000/notes/comments/fetchcomments/${id}`, {
+                const response = await fetch(`http://localhost:3000/auth/verify`, {
                     headers: {
                         'Content-Type': 'application/json',
-                        'auth-token': auth_token
+                        'auth-token': auth_token,
+                        'blog_user': blog_user
                     }
-                });
-                const comments = await response.json()
-                if (comments.length >= 1) {
-                    setComment(comments)
+                })
+                const id = await response.json()
+                if (id.message == "Verified") {
+                    setVerified(true)
                 }
             } catch (error) {
-                console.error('Error:', error.message);
+                console.log(error)
             }
         }
+
+
         const fetchblog = async (id) => {
             try {
                 const response = await fetch(`http://localhost:3000/notes/findblog/${id}`, {
@@ -51,11 +75,12 @@ const Blog_detail = () => {
                 })
                 const blog = await response.json()
                 setData(blog)
+                verifyOwner(blog.user)
             } catch (error) {
                 console.log(error)
             }
         }
-
+        
         fetchblog(blog_id)
         fetch_comments(blog_id)
     }, [])
@@ -64,10 +89,10 @@ const Blog_detail = () => {
             <div className='my-2 mx-auto flex flex-col'>
                 <div className='flex justify-between mx-8 items-center'>
                     <h1 className='text-4xl font-semibold'>Dev.Blog</h1>
-                    <div className='flex justify-around items-center w-2/12'>
+                    {verified ? <div className='flex justify-around items-center w-2/12'>
                         <Link to={'/home/post/edit_post/1'} className='bg-[#f14843] w-20 rounded-xl font-medium text-center py-2 my-auto'>Edit</Link>
                         <button type="submit" className='w-20 py-2 my-5 rounded-xl font-medium text-center bg-[#f14843]'>Delete</button>
-                    </div>
+                    </div> : <h1></h1>}
                 </div>
             </div>
             <div className='w-11/12 mx-auto'>
@@ -83,10 +108,10 @@ const Blog_detail = () => {
                             <div className='flex justify-between'>
                                 <h1>@{comment.user}</h1>
                                 <div className='w-14 flex justify-between'>
-                                    <span className="material-symbols-outlined text-lg">
+                                    <span className="material-symbols-outlined text-lg cursor-pointer">
                                         edit
                                     </span>
-                                    <span onClick={handleCommentdel} id={comment._id} className="material-symbols-outlined text-lg font-semibold">
+                                    <span onClick={handleCommentdel} id={comment._id} className="material-symbols-outlined text-lg font-semibold cursor-pointer">
                                         delete
                                     </span>
                                 </div>
