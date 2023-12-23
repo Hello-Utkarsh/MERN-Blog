@@ -10,6 +10,10 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
+    user_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
+    },
     discription: {
         type: String,
         required: true

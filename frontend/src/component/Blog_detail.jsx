@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import {useNavigate} from 'react-router-dom'
+import { Form, Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { useForm, Controller } from "react-hook-form";
 
 const Blog_detail = () => {
     const navigate = useNavigate()
@@ -9,8 +10,10 @@ const Blog_detail = () => {
     const [verified, setVerified] = useState(false)
     const [blogData, setData] = useState('')
     const blog_id = localStorage.getItem("blogId")
+    const { control, handleSubmit, formState: { errors } } = useForm();
 
     const Delblog = async () => {
+        // DELETEING BLOG
         try {
             console.log(blog_id)
             const response = await fetch(`http://localhost:3000/notes/deleteblog/${blog_id}`, {
@@ -26,7 +29,30 @@ const Blog_detail = () => {
         }
     }
 
+    const handleComment = async (comment) => {
+        // HANDLING THE INPUT FROM COMMENT_INPUT_BOX
+        try {
+            const response = await fetch(`http://localhost:3000/notes/comments/postcomment/${blog_id}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'auth-token': auth_token
+                },
+                body: JSON.stringify({
+                    discription: comment.comment,
+                }),
+            });
+            if (!response.ok) {
+                throw new Error(`${comments.error}. Status: ${response.status}`);
+            }
+            fetch_comments(blog_id)
+        } catch (error) {
+            console.log(error.message)
+        }
+    }
+
     const fetch_comments = async (id) => {
+        // FETCHING ALL THE COMMENTS OF THE BLOG
         try {
             const response = await fetch(`http://localhost:3000/notes/comments/fetchcomments/${id}`, {
                 headers: {
@@ -65,6 +91,7 @@ const Blog_detail = () => {
     useEffect(() => {
 
         const verifyOwner = async (blog_user) => {
+            // VERIFYING IS THE USER IS OWNER OF THE BLOG
             try {
                 const response = await fetch(`http://localhost:3000/auth/verify`, {
                     headers: {
@@ -84,6 +111,7 @@ const Blog_detail = () => {
 
 
         const fetchblog = async (id) => {
+            // FETCHING USERS BLOG
             try {
                 const response = await fetch(`http://localhost:3000/notes/findblog/${id}`, {
                     headers: {
@@ -141,8 +169,19 @@ const Blog_detail = () => {
 
             </div>
             <div className='w-11/12 mx-auto flex justify-center mb-4'>
-                <input type="text" placeholder='Comment' className='w-9/12 h-9 rounded-lg px-4' />
-                <button className='w-32 bg-[#f14843] h-9 rounded-lg'>Add Comment</button>
+                <Form onSubmit={handleSubmit(handleComment)} className='w-9/12 flex justify-center'>
+                    <Controller
+                        name='comment'
+                        control={control}
+                        render={({ field }) => (
+                            <>
+                                <input {...field} type="text" name='comment' placeholder='Comment' className='w-full h-9 rounded-lg px-4' />
+                                {errors.email && <p className='text-sm text-red-600 font-medium'>{errors.email.message}</p>}
+                            </>
+                        )}
+                    />
+                    <button type='submit' className='w-32 bg-[#f14843] h-9 rounded-lg'>Add Comment</button>
+                </Form>
             </div>
 
         </div>
