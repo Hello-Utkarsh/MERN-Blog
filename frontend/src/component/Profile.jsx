@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Blog_card from './Blog_card'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 // import { MyContext, MyState } from '../MyContext'
 // import jwt from 'jsonwebtoken';
 
 const Profile = () => {
+  const navigate = useNavigate()
   const [userBlogs, setblogs] = useState("")
   const auth_token = localStorage.getItem('token')
   const [name, setname] = useState("")
@@ -41,10 +42,15 @@ const Profile = () => {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'token': auth_token
+            'auth-token': auth_token
           }
         });
         const user = await response.json()
+        // console.log(user)
+        if (!response.ok) {
+          navigate("/login")
+          throw new Error(`HTTP error! Status: ${response.status}, Message: ${user.error}`)
+      }
         setname(user.user_data.user.name)
         setemail(user.user_data.user.email)
       } catch (error) {
@@ -54,10 +60,6 @@ const Profile = () => {
     fetch_user()
     fetch_blogs()
   }, [])
-
-  let id = 5
-  let title = "Bitcoin: Decentralized Digital Currency and the Future of Peer-to-Peer Transactions"
-  let body = "Decentralized digital currency, operates on blockchain, limited supply, peer-to-peer transactions, volatile value, potential store of value or payment method."
 
   return (
     <div className='flex h-screen'>
@@ -85,7 +87,7 @@ const Profile = () => {
           </div>
         </div>
         {userBlogs ? userBlogs.map((blogs) => {
-          return <Link to={`/home/post/${id}`}>
+          return <Link to={`/home/post/${blogs._id}`}>
             <Blog_card title={blogs.title} id={blogs._id} body={blogs.discription} img_url="https://th.bing.com/th?id=OSK.HEROu9H3ZxVAq44jb9Jv0eitJt7Rk8ArgSbDL6b1zkZ3XfI&w=384&h=228&c=1&rs=2&o=6&dpr=1.4&pid=SANGAM" />
           </Link>
         }) : <h1 className='text-lg mx-auto mt-16'>No Posts</h1>}

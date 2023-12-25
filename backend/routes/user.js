@@ -43,10 +43,10 @@ router.post('/createuser', [
     }
 })
 
-router.get('/fetchuser', async (req, res) => {
+router.get('/fetchuser', fetchuser, async (req, res) => {
     try {
         // console.log(req.headers.token)
-        let user_data = jwt.verify(req.headers.token, process.env.VITE_JWT_SECRET)
+        let user_data = jwt.verify(req.headers["auth-token"], process.env.VITE_JWT_SECRET)
         return res.send({ user_data })
     } catch (error) {
         return res.send(error.message)
