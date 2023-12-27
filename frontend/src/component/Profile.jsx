@@ -46,7 +46,6 @@ const Profile = () => {
           }
         });
         const user = await response.json()
-        // console.log(user)
         if (!response.ok) {
           navigate("/login")
           throw new Error(`HTTP error! Status: ${response.status}, Message: ${user.error}`)

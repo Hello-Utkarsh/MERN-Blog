@@ -63,7 +63,7 @@ router.post('/login', [
 
         // IF DOES NOT EXIST
         if (!user) {
-            return res.send("Incorrect email or password")
+            return res.status(404).json({message: "Incorrect email or password"})
         }
 
         // IF EXIST THEN CHECKING THE PASSWORD

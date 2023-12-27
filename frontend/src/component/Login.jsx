@@ -10,9 +10,9 @@ const Login = () => {
   const [success, setSuccess] = useState("")
   const [error, setError] = useState("")
 
-  const handleLogin = async(user) => {
-    
-    try{
+  const handleLogin = async (user) => {
+
+    try {
       const response = await fetch('http://localhost:3000/auth/login', {
         method: 'POST',
         headers: {
@@ -25,6 +25,11 @@ const Login = () => {
       });
 
       const data = await response.json();
+      if (!response.ok) {
+        setError(data.message)
+        alert(data.message)
+        throw new Error((`HTTP error! Status: ${response.status}, Message: ${data.message}`))
+      }
       if (response.status == 200) {
         setSuccess(true)
         navigate("/home")

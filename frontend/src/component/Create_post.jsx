@@ -21,6 +21,7 @@ const Create_post = () => {
                     tag: "learning"
                 }),
             });
+            console.log(post.img)
             navigate("/profile")
         } catch (error) {
             console.error('Error:', error.message);
@@ -64,7 +65,17 @@ const Create_post = () => {
                     />
                 </div>
                 <div className='flex flex-col mx-auto w-6/12 mt-6'>
-                    <input type="file" className='rounded-md h-8' />
+                <Controller
+                        name='img'
+                        control={control}
+                        render={({ field }) => (
+                            <>
+                                <input type="file" {...field} className='rounded-md h-8' />
+                                {errors.img && <p className='text-sm text-red-600 font-medium'>{errors.img.message}</p>}
+                            </>
+                        )}
+                    />
+                    
                 </div>
                 <div className='mx-auto flex justify-center'>
                     <button type="submit" className='w-32 py-2 my-5 mx-auto rounded-xl font-medium text-center bg-[#f14843]'>Create Post</button>

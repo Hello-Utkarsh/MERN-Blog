@@ -1,15 +1,40 @@
 import React from 'react'
 import { useForm, Controller } from 'react-hook-form';
-import { Form } from 'react-router-dom';
+import { Form, useNavigate } from 'react-router-dom';
 
 const Edit_post = () => {
     const { control, handleSubmit, formState: { errors } } = useForm();
+    let navigate = useNavigate()
+    const blog_id = localStorage.getItem("blogId")
+    const auth_token = localStorage.getItem("token")
+    const title = localStorage.getItem('title')
+    const desc = localStorage.getItem('desc')
 
-    let handleEdit = (user) => {
-        console.log(user)
+    let handleEdit = async (user) => {
+        // console.log(user.title, user.Description)
+        console.log(blog_id)
+        try {
+            const response = await fetch(`http://localhost:3000/notes/updateblog/${blog_id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'auth-token': auth_token,
+                },
+                body: JSON.stringify({
+                    title: user.title,
+                    discription: user.Description
+                })
+            })
+            let update = await response.json()
+            if (response.ok) {
+                navigate('/profile')
+            }
+        } catch (error) {
+
+        }
     }
-  return (
-    <Form onSubmit={handleSubmit(handleEdit)} className='mx-auto flex w-10/12 my-10'>
+    return (
+        <Form onSubmit={handleSubmit(handleEdit)} className='mx-auto flex w-10/12 my-10'>
             <div className='w-full'>
                 <h1 className='text-4xl w-fit mx-auto font-medium'>Edit post</h1>
                 <div className='flex flex-col mx-auto w-6/12 my-4'>
@@ -17,6 +42,7 @@ const Edit_post = () => {
                     <Controller
                         name='title'
                         control={control}
+                        defaultValue={title}
                         rules={{
                             required: "Title is required",
                         }}
@@ -36,9 +62,10 @@ const Edit_post = () => {
                         rules={{
                             required: "Description is required",
                         }}
+                        defaultValue={desc}
                         render={({ field }) => (
                             <>
-                                <input type="text"  {...field} className='rounded-md px-2 h-8' />
+                                <input type="text" {...field} className='rounded-md px-2 h-8' />
                                 {errors.Description && <p className='text-sm text-red-600 font-medium'>{errors.Description.message}</p>}
                             </>
                         )}
@@ -52,7 +79,7 @@ const Edit_post = () => {
                 </div>
             </div>
         </Form>
-  )
+    )
 }
 
 export default Edit_post

@@ -15,7 +15,6 @@ const Blog_detail = () => {
     const Delblog = async () => {
         // DELETEING BLOG
         try {
-            console.log(blog_id)
             const response = await fetch(`http://localhost:3000/notes/deleteblog/${blog_id}`, {
                 method: 'DELETE',
                 headers: {
@@ -136,7 +135,7 @@ const Blog_detail = () => {
                 <div className='flex justify-between mx-8 items-center'>
                     <h1 className='text-4xl font-semibold'>Dev.Blog</h1>
                     {verified ? <div className='flex justify-around items-center w-2/12'>
-                        <Link to={'/home/post/edit_post/1'} className='bg-[#f14843] w-20 rounded-xl font-medium text-center py-2 my-auto'>Edit</Link>
+                        <Link to={'/home/post/edit_post/1'} onClick={()=>{localStorage.setItem('desc', blogData.discription, localStorage.setItem('title', blogData.title))}} className='bg-[#f14843] w-20 rounded-xl font-medium text-center py-2 my-auto'>Edit</Link>
                         <button type="submit" onClick={Delblog} className='w-20 py-2 my-5 rounded-xl font-medium text-center bg-[#f14843]'>Delete</button>
                     </div> : <h1></h1>}
                 </div>
@@ -175,7 +174,7 @@ const Blog_detail = () => {
                         control={control}
                         render={({ field }) => (
                             <>
-                                <input {...field} type="text" name='comment' placeholder='Comment' className='w-full h-9 rounded-lg px-4' />
+                                <input {...field} type="text" id='comment-box' name='comment' placeholder='Comment' className='w-full h-9 rounded-lg px-4' />
                                 {errors.email && <p className='text-sm text-red-600 font-medium'>{errors.email.message}</p>}
                             </>
                         )}
