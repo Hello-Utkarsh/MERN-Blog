@@ -28,6 +28,29 @@ router.get('/fetchcomments/:id', fetchuser, async (req, res) => {
   }
 })
 
+// DELETE ALL COMMENTS OF A BLOG
+router.delete('/deleteallcomments/:id', fetchuser, async (req, res) => {
+  try {
+    if (!req.params.id) {
+      return res.status(404).send("Please provide blog id")
+    }
+    let blog = await Blogs.find({
+      _id: req.params.id,
+    });
+    
+    if (!blog) {
+      return res.status(404).json({error: "Blog not found"});
+    }
+
+    const comments = await Comment.deleteMany({post_id: req.params.id})
+    return res.status(200).json({comments})
+
+
+  } catch (error) {
+    res.send(error.message);
+  }
+})
+
 // CREATE COMMENT
 router.post(`/postcomment/:id`, fetchuser, async (req, res) => {
 

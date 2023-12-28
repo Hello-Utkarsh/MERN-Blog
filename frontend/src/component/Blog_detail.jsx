@@ -22,6 +22,13 @@ const Blog_detail = () => {
                     'auth-token': auth_token
                 }
             });
+            const DEL_ALL_BLOG_COMMENT = await fetch(`http://localhost:3000/notes/comments/deleteallcomments/${blog_id}`, {
+                method: "DELETE",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'auth-token': auth_token
+                }
+            })
             navigate("/profile")
         } catch (error) {
             console.log(error)
